@@ -1,0 +1,217 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1ukkkcl3etsq"]
+
+[ext_resource type="Script" uid="uid://ed05hjedvjeu" path="res://fightHUD.gd" id="1_4jl1m"]
+[ext_resource type="Texture2D" uid="uid://bgir3pn0137dr" path="res://icon.svg" id="2_m6wut"]
+[ext_resource type="Texture2D" uid="uid://blbsqw07h4hon" path="res://mini min.jpg" id="3_4jl1m"]
+
+[node name="Fight" type="CanvasLayer"]
+script = ExtResource("1_4jl1m")
+
+[node name="Pokemon3" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+position = Vector2(847, 195)
+scale = Vector2(5, 5)
+script = null
+
+[node name="MoveSelection" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="MoveSelection"]
+offset_left = -88.0
+offset_top = 472.0
+offset_right = 1187.0
+offset_bottom = 676.0
+color = Color(0.2824075, 0.28240746, 0.28240746, 1)
+
+[node name="Move1" type="Button" parent="MoveSelection"]
+offset_left = 20.0
+offset_top = 472.0
+offset_right = 435.0
+offset_bottom = 555.0
+disabled = true
+text = "NAME OF MOVE"
+
+[node name="Move2" type="Button" parent="MoveSelection"]
+offset_left = 443.0
+offset_top = 561.0
+offset_right = 865.0
+offset_bottom = 644.0
+disabled = true
+text = "naME of move"
+
+[node name="Move3" type="Button" parent="MoveSelection"]
+offset_left = 20.0
+offset_top = 563.0
+offset_right = 435.0
+offset_bottom = 644.0
+disabled = true
+text = "NAME OF MOVE"
+
+[node name="Move4" type="Button" parent="MoveSelection"]
+offset_left = 443.0
+offset_top = 474.0
+offset_right = 864.0
+offset_bottom = 557.0
+disabled = true
+text = "NAME OF MOVE"
+
+[node name="SelectionTypeBox" type="ColorRect" parent="MoveSelection"]
+offset_left = 909.0
+offset_top = 488.0
+offset_right = 1124.0
+offset_bottom = 633.0
+color = Color(0.466667, 0.466667, 0.466667, 0.776471)
+
+[node name="Type" type="Label" parent="MoveSelection/SelectionTypeBox"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 214.0
+offset_bottom = 136.0
+theme_override_font_sizes/font_size = 36
+text = "Description"
+horizontal_alignment = 1
+
+[node name="Battletest" type="Sprite2D" parent="."]
+position = Vector2(1396, 1092)
+scale = Vector2(2.25246, 1.70419)
+
+[node name="Backgroundtest" type="TextureRect" parent="."]
+offset_left = -366.0
+offset_top = 793.0
+offset_right = 783.0
+offset_bottom = 1562.0
+texture = ExtResource("2_m6wut")
+
+[node name="PlayerHUD" type="CanvasLayer" parent="."]
+
+[node name="HP Bar" type="ColorRect" parent="PlayerHUD"]
+offset_left = 438.0
+offset_top = 291.0
+offset_right = 559.0
+offset_bottom = 298.0
+color = Color(0, 0.988235, 0.282353, 1)
+
+[node name="HP" type="Label" parent="PlayerHUD"]
+offset_left = 383.0
+offset_top = 262.0
+offset_right = 436.0
+offset_bottom = 304.0
+theme_override_colors/font_color = Color(0, 0.960784, 0.266667, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "HP"
+
+[node name="BattleTextBG" type="ColorRect" parent="."]
+offset_top = 472.0
+offset_right = 1157.0
+offset_bottom = 639.0
+color = Color(0.466667, 0.466667, 0.466667, 0.776471)
+
+[node name="BattleText" type="Label" parent="BattleTextBG"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 10.0
+offset_right = 1113.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 38
+text = "The wild X used Y"
+
+[node name="Options" type="CanvasLayer" parent="."]
+
+[node name="Fight" type="Button" parent="Options"]
+offset_left = 23.0
+offset_top = 88.0
+offset_right = 246.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 35
+text = "FIGHT"
+
+[node name="Bag" type="Button" parent="Options"]
+offset_left = 22.0
+offset_top = 166.0
+offset_right = 248.0
+offset_bottom = 238.0
+theme_override_font_sizes/font_size = 35
+text = "SKILLS"
+
+[node name="Run" type="Button" parent="Options"]
+offset_left = 35.0
+offset_top = 336.0
+offset_right = 251.0
+offset_bottom = 408.0
+theme_override_font_sizes/font_size = 35
+text = "RUN"
+
+[node name="Pokemon" type="Button" parent="Options"]
+offset_left = 28.0
+offset_top = 248.0
+offset_right = 244.0
+offset_bottom = 320.0
+theme_override_font_sizes/font_size = 35
+text = "BAG"
+
+[node name="PromptTextBG" type="ColorRect" parent="."]
+offset_left = 32.0
+offset_top = 475.0
+offset_right = 1129.0
+offset_bottom = 618.0
+color = Color(0.466667, 0.466667, 0.466667, 0.776471)
+metadata/_edit_group_ = true
+
+[node name="PromptText" type="Label" parent="PromptTextBG"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 10.0
+offset_right = 546.0
+offset_bottom = 158.0
+theme_override_font_sizes/font_size = 38
+text = "What will
+you do?"
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(926, 77)
+scale = Vector2(1.03125, 1.2578125)
+texture = ExtResource("2_m6wut")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 591.0
+offset_top = 321.0
+offset_right = 1024.0
+offset_bottom = 448.0
+text = "disable camera tracking and ability to move during
+move selection
+<-- needs idle animation
+asterisk there can be more than 4 skills but this setup works. 
+it should scroll or something of the sort, left to right im feeling"
+
+[node name="Icon2" type="Sprite2D" parent="."]
+position = Vector2(975.00006, 203)
+scale = Vector2(1.0634766, 1.5820923)
+texture = ExtResource("2_m6wut")
+
+[node name="MiniMin" type="Sprite2D" parent="."]
+position = Vector2(491.00003, 367)
+scale = Vector2(0.79545456, 0.7553192)
+texture = ExtResource("3_4jl1m")
+
+[connection signal="mouse_entered" from="MoveSelection/Move1" to="." method="_on_move_1_mouse_entered"]
+[connection signal="pressed" from="MoveSelection/Move1" to="." method="_on_move_1_pressed"]
+[connection signal="mouse_entered" from="MoveSelection/Move2" to="." method="_on_move_2_mouse_entered"]
+[connection signal="pressed" from="MoveSelection/Move2" to="." method="_on_move_2_pressed"]
+[connection signal="mouse_entered" from="MoveSelection/Move3" to="." method="_on_move_3_mouse_entered"]
+[connection signal="pressed" from="MoveSelection/Move3" to="." method="_on_move_3_pressed"]
+[connection signal="mouse_entered" from="MoveSelection/Move4" to="." method="_on_move_4_mouse_entered"]
+[connection signal="pressed" from="MoveSelection/Move4" to="." method="_on_move_4_pressed"]
+[connection signal="pressed" from="Options/Fight" to="." method="_on_fight_pressed"]
+[connection signal="pressed" from="Options/Bag" to="." method="_on_bag_pressed"]
+[connection signal="pressed" from="Options/Run" to="." method="_on_run_pressed"]
+[connection signal="pressed" from="Options/Pokemon" to="." method="_on_pokemon_pressed"]

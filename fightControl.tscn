@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvhnceo7psi3"]
+
+[ext_resource type="Script" uid="uid://ed05hjedvjeu" path="res://fightHUD.gd" id="1_jnvtm"]
+[ext_resource type="Texture2D" uid="uid://bgir3pn0137dr" path="res://icon.svg" id="2_eoagk"]
+[ext_resource type="PackedScene" uid="uid://c3pqoxpupoh0g" path="res://player.tscn" id="3_nk6y2"]
+
+[node name="Fight" type="CanvasLayer"]
+script = ExtResource("1_jnvtm")
+
+[node name="PlayerHUD" type="CanvasLayer" parent="."]
+
+[node name="HP Bar" type="ColorRect" parent="PlayerHUD"]
+offset_left = 438.0
+offset_top = 291.0
+offset_right = 559.0
+offset_bottom = 298.0
+color = Color(0, 0.988235, 0.282353, 1)
+
+[node name="HP" type="Label" parent="PlayerHUD"]
+offset_left = 383.0
+offset_top = 262.0
+offset_right = 436.0
+offset_bottom = 304.0
+theme_override_colors/font_color = Color(0, 0.960784, 0.266667, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "HP"
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(926, 77)
+scale = Vector2(1.03125, 1.2578125)
+texture = ExtResource("2_eoagk")
+
+[node name="Player" parent="." instance=ExtResource("3_nk6y2")]
+position = Vector2(501, 350)
+
+[node name="Icon2" type="Sprite2D" parent="."]
+position = Vector2(975.00006, 203)
+scale = Vector2(1.0634766, 1.5820923)
+texture = ExtResource("2_eoagk")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 99.0
+offset_top = 174.0
+offset_right = 396.0
+offset_bottom = 482.0
+text = "maybe make a seperate player scene
+that is the same but with hp bar
+
+actually defnitely do that because
+otherwise there'd be no way to attack."

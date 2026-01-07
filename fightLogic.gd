@@ -1,0 +1,198 @@
+extends Area2D
+
+# ex: var move1 = ["Shadow Claw", "Ghost", "Physical", 70, 100, 24, "High critical hit ratio"]
+var team = []
+var enemy_team = []
+var atk_modifier = 1
+var spa_modifier = 1
+var def_modifier = 1
+var spd_modifier = 1
+var spe_modifier = 1
+var crt_modifier = 0
+
+func _ready() -> void:
+	SignalBus.move1.connect(_on_move1)
+	SignalBus.move2.connect(_on_move2)
+	SignalBus.move3.connect(_on_move3)
+	SignalBus.move4.connect(_on_move4)
+	SignalBus.battle_started.connect(_on_battle_started)
+	SignalBus.fight_pressed2.connect(_on_fight_pressed2) # these are all theoretically applicable here. 
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func _on_battle_started():
+	pass 
+
+func do_damage(mon, move): 
+	if !move.pp <= 0:
+		var damage = 1
+		var enemy = enemy_team[0] # index by chosen enemy
+		 # send the damage and what move was done
+		if !move.dtype == "Status":
+			if move.extra[0] != null:
+				do_extra_effects(mon, move)
+			# first check pp, and make the battle text say something about being out of pp
+			# if every move is out of pp, make it default to struggle. Somewhere else, also change the name to struggle n stuff.
+			
+			# get the corresponding stat of the other pokemon
+				# def / spd <-- modifiers (iron defense) and abilities should be here
+				# atk / spa
+				# abilities
+			enemy.hp # ehp -- enemy hp
+			var edef = enemy.def
+			var espd = enemy.spd
+			# assume no relevant abilities for now
+			
+			
+			# calculate damage
+				# check damage of move
+				# check stab
+				# check gimmic, ie tera
+				# check effectiveness 
+				# check miss
+				# check abilities
+				# send signal to update the text as this is going along
+			# name, type, attack type, damage, hit chance, pp, other effects
+			var stab = 1
+			
+			var crit = calculate_crit(crt_modifier)
+			
+			# it was a crit!
+			
+			if move.type == mon.types[0] or move.type == mon.types[1]:
+				stab = 1.5
+			
+			# check effectiveness
+			
+			if move.dtype == "Physical":
+				# damage = ((((2 x level) / 5) x power(ofmove) x (atk / def) / 50) + 2) x 
+				# targets(.75 if 2, 1 if 1) x pb(parental bond) x weather x glaiverush x critical (1.5) x random(85 - 100 / 100) x stab x type x burn x other 
+				var damage1 = 2 * mon.level
+				var damage2 = move.damage
+				var damage3 = (mon.atk * atk_modifier) / edef
+				var damage4 = randf_range(85, 100) / 100.0
+				var damage5 = ((damage1 / 5) * damage2 * damage3 / 50) + 2
+				#damage = int(damage5 * damage4 * stab)
+				
+				damage = ((((damage1) / 5) * damage2 * (damage3) / 50) + 2) * damage4 * stab 
+				damage *= crit
+				
+			elif move.dtype == "Special":
+				damage = ((((2 * mon.level) / 5) * move.damage * ((mon.spa * spa_modifier) / espd) / 50) + 2) * (randi_range(85, 100) / 100) * stab # also check weakness
+				damage *= crit
+				
+			if damage <= 0:
+				damage = 1
+				
+			# subtract the other pokemon's health
+				# simple health minus damage
+				# send signal along with new health to HUD
+				# update HUD there
+				# hide all the other stuff down there, disable buttons and whatnot
+				# show the prompttext
+				# change prompttext to say what happened
+			
+			if emon.hp - damage <= 0:
+				damage = emon.hp
+			emon.hp -= damage
+			
+			if move.extra[0] == "drain":
+				var percent = move.extra[1] / 100.0
+				var heal = damage * percent
+				if heal < 1:
+					heal = 1
+				
+				mon.hp += heal
+				
+				if mon.hp > mon.base_hp:
+					mon.hp = mon.base_hp
+			# subtract pp
+			
+			if crit > 1:
+				SignalBus.battle_text.emit({"crit" : true})
+				
+			await get_tree().create_timer(2).timeout 
+			SignalBus.battle_text.emit({"damage dealt" : true, "pk2 name" : emon.nick, "damage" : damage, "max health" : emon.base_hp, "health" : emon.hp})
+		else:
+			do_extra_effects(mon, move)
+			
+		move.pp -= 1
+	
+func _on_move1():
+	var mon = team[0]
+	var move = mon.move1
+	
+	do_damage(mon, move)
+	
+func _on_move2():
+	var mon = team[0]
+	var move = mon.move2
+	
+	do_damage(mon, move)
+	
+func _on_move3():
+	var mon = team[0]
+	var move = mon.move3
+	
+	do_damage(mon, move)
+	
+func _on_move4():
+	var mon = team[0]
+	var move = mon.move4
+	
+	do_damage(mon, move)
+	
+func calculate_crit(crt_modifier):
+	#var threshold = mon.speed
+	# apparently threshold on high crit rates is min(8 * (BaseSpeed / 2), 255) which i dunno what means
+	# easieer in later gens actually. 
+	# 1 / 24 1 /8
+	var threshold = 1 / 24
+	match crt_modifier:
+		1:
+			threshold = 8
+		2:
+			threshold = 4
+		3:
+			threshold = 2
+		4:
+			return 2
+		_:
+			threshold = 24
+			
+	if randi_range(1, threshold) == threshold:
+		return 2
+	else:
+		return 1
+	
+#atx2 sax2 sdx2 spx2 dex2 cr+15 he+50 hl+50
+func do_extra_effects(mon, move):
+	match move.extra[0]:
+		"attack":
+			atk_modifier = move.extra[1]
+		"special attack":
+			spa_modifier = move.extra[1]
+		"defense":
+			def_modifier = move.extra[1]
+		"special defense":
+			spd_modifier = move.extra[1]
+		"speed":
+			spe_modifier = move.extra[1]
+		"crit":
+			crt_modifier = move.extra[1]
+		"heal":
+			var heal = mon.base_hp * (move.extra[1] / 100)
+			if (heal < 1):
+				heal = 1
+			
+			mon.hp += heal
+			
+			if (mon.hp > mon.base_hp):
+				mon.hp = mon.base_hp
+
+func _on_fight_pressed2():
+	SignalBus.fight_pressed3.emit(team[0].move1, team[0].move2, team[0].move3, team[0].move4)
+	

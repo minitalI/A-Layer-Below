@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://cirose3bl8sjp"]
+
+[ext_resource type="Script" uid="uid://bg6smb8kgrg5t" path="res://resourceMoves.gd" id="1_fksrg"]
+
+[resource]
+resource_name = "Moves"
+script = ExtResource("1_fksrg")
+id = ""
+type = ""
+dtype = ""
+range = ""
+damage = 0
+accuracy = 0
+pp = 0
+extra_desc = ""
+extra = []
+cat = ""

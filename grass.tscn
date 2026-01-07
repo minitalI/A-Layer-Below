@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dl2l0dxnwvaon"]
+
+[ext_resource type="Script" uid="uid://dywmj57ky4lea" path="res://grass.gd" id="1_kl2qe"]
+[ext_resource type="Texture2D" uid="uid://bbdwvvaf6e3le" path="res://assets/env/GRASS.png" id="2_mw2ei"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mlfo1"]
+size = Vector2(14, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2qnaq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mw2ei")
+}],
+"loop": true,
+"name": &"touched",
+"speed": 5.0
+}]
+
+[node name="Grass" type="Area2D"]
+script = ExtResource("1_kl2qe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mlfo1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2qnaq")
+animation = &"touched"
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
