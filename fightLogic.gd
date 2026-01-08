@@ -31,7 +31,7 @@ func do_damage(mon, move):
 		var damage = 1
 		var enemy = enemy_team[0] # index by chosen enemy
 		 # send the damage and what move was done
-		if !move.dtype == "Status":
+		if !move.dtype == "Status": # there will be status, at least in take control and let goS
 			if move.extra[0] != null:
 				do_extra_effects(mon, move)
 			# first check pp, and make the battle text say something about being out of pp
@@ -70,9 +70,9 @@ func do_damage(mon, move):
 			if move.dtype == "Physical":
 				# damage = ((((2 x level) / 5) x power(ofmove) x (atk / def) / 50) + 2) x 
 				# targets(.75 if 2, 1 if 1) x pb(parental bond) x weather x glaiverush x critical (1.5) x random(85 - 100 / 100) x stab x type x burn x other 
-				var damage1 = 2 * mon.level
+				var damage1 = 2 * PlayerInfo.level
 				var damage2 = move.damage
-				var damage3 = (mon.atk * atk_modifier) / edef
+				var damage3 = (PlayerInfo.atk * atk_modifier) / edef
 				var damage4 = randf_range(85, 100) / 100.0
 				var damage5 = ((damage1 / 5) * damage2 * damage3 / 50) + 2
 				#damage = int(damage5 * damage4 * stab)
@@ -95,9 +95,9 @@ func do_damage(mon, move):
 				# show the prompttext
 				# change prompttext to say what happened
 			
-			if emon.hp - damage <= 0:
-				damage = emon.hp
-			emon.hp -= damage
+			if enemy.hp - damage <= 0:
+				damage = enemy.hp # consider changing, simply so that damage can go really high
+			enemy.hp -= damage
 			
 			if move.extra[0] == "drain":
 				var percent = move.extra[1] / 100.0
@@ -115,12 +115,14 @@ func do_damage(mon, move):
 				SignalBus.battle_text.emit({"crit" : true})
 				
 			await get_tree().create_timer(2).timeout 
-			SignalBus.battle_text.emit({"damage dealt" : true, "pk2 name" : emon.nick, "damage" : damage, "max health" : emon.base_hp, "health" : emon.hp})
+			# change hud by emitting signal with a dict
 		else:
 			do_extra_effects(mon, move)
-			
-		move.pp -= 1
+		
+		# then, make the scene transition to control mode, send a signal to the HUD and to a scene for each enemy.	
 	
+# there is going to be more than 4 skills. it would be nice if you could figure out how to send something with the button press.
+
 func _on_move1():
 	var mon = team[0]
 	var move = mon.move1
@@ -143,6 +145,11 @@ func _on_move4():
 	var mon = team[0]
 	var move = mon.move4
 	
+	do_damage(mon, move)
+
+func _on_attack():
+	var mon = team[0]
+	var move = mon.move1
 	do_damage(mon, move)
 	
 func calculate_crit(crt_modifier):
