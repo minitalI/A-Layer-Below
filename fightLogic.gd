@@ -26,14 +26,15 @@ func _process(delta: float) -> void:
 func _on_battle_started():
 	pass 
 
-func do_damage(mon, move): 
+
+func do_damage(enemy_name, move):  
 	if !move.pp <= 0:
 		var damage = 1
-		var enemy = enemy_team[0] # index by chosen enemy
+		var enemy = EnemyDB.enemies[enemy_name] # index by chosen enemy
 		 # send the damage and what move was done
 		if !move.dtype == "Status": # there will be status, at least in take control and let goS
 			if move.extra[0] != null:
-				do_extra_effects(mon, move)
+				do_extra_effects(move)
 			# first check pp, and make the battle text say something about being out of pp
 			# if every move is out of pp, make it default to struggle. Somewhere else, also change the name to struggle n stuff.
 			
@@ -62,10 +63,9 @@ func do_damage(mon, move):
 			
 			# it was a crit!
 			
-			if move.type == mon.types[0] or move.type == mon.types[1]:
-				stab = 1.5
-			
 			# check effectiveness
+			# damage formula should actually be like d * a + m(a * g)^e - (d^e * f - (e + n + s) - e) the exact formula can be modified as needed
+			# d is random, a is the weapon attack stat, m is min attack stat, g is weakness, e is eulers number. f is enemy defense, n is the number of hits the move does, s is for the number of enemies it hits
 			
 			if move.dtype == "Physical":
 				# damage = ((((2 x level) / 5) x power(ofmove) x (atk / def) / 50) + 2) x 
@@ -80,9 +80,6 @@ func do_damage(mon, move):
 				damage = ((((damage1) / 5) * damage2 * (damage3) / 50) + 2) * damage4 * stab 
 				damage *= crit
 				
-			elif move.dtype == "Special":
-				damage = ((((2 * mon.level) / 5) * move.damage * ((mon.spa * spa_modifier) / espd) / 50) + 2) * (randi_range(85, 100) / 100) * stab # also check weakness
-				damage *= crit
 				
 			if damage <= 0:
 				damage = 1
@@ -102,22 +99,19 @@ func do_damage(mon, move):
 			if move.extra[0] == "drain":
 				var percent = move.extra[1] / 100.0
 				var heal = damage * percent
+				var max_hp = PlayerInfo.health
 				if heal < 1:
 					heal = 1
-				
-				mon.hp += heal
-				
-				if mon.hp > mon.base_hp:
-					mon.hp = mon.base_hp
-			# subtract pp
-			
+				if (not heal + PlayerInfo.health > max_hp):
+					PlayerInfo.health += heal
+
 			if crit > 1:
 				SignalBus.battle_text.emit({"crit" : true})
-				
+
 			await get_tree().create_timer(2).timeout 
 			# change hud by emitting signal with a dict
 		else:
-			do_extra_effects(mon, move)
+			do_extra_effects(move)
 		
 		# then, make the scene transition to control mode, send a signal to the HUD and to a scene for each enemy.	
 	
@@ -176,7 +170,7 @@ func calculate_crit(crt_modifier):
 		return 1
 	
 #atx2 sax2 sdx2 spx2 dex2 cr+15 he+50 hl+50
-func do_extra_effects(mon, move):
+func do_extra_effects(move):
 	match move.extra[0]:
 		"attack":
 			atk_modifier = move.extra[1]
@@ -191,14 +185,14 @@ func do_extra_effects(mon, move):
 		"crit":
 			crt_modifier = move.extra[1]
 		"heal":
-			var heal = mon.base_hp * (move.extra[1] / 100)
+			var heal = PlayerInfo.health * (move.extra[1] / 100)
+			var max_hp = PlayerInfo.health
+			
 			if (heal < 1):
 				heal = 1
 			
-			mon.hp += heal
-			
-			if (mon.hp > mon.base_hp):
-				mon.hp = mon.base_hp
+			if (not heal + PlayerInfo.health > max_hp):
+				PlayerInfo.health += heal
 
 func _on_fight_pressed2():
 	SignalBus.fight_pressed3.emit(team[0].move1, team[0].move2, team[0].move3, team[0].move4)

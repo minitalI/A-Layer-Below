@@ -33,20 +33,19 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("run"):
 		run = not run
 	
-	if in_battle == false:
-		if run == true:
-			velocity *= 2
-			#$AnimatedSprite2D.animation = "run" + direction
-		else:
-			pass
-			#$AnimatedSprite2D.animation = "walk" + direction
+	if run == true:
+		velocity *= 2
+		#$AnimatedSprite2D.animation = "run" + direction
+	else:
+		pass
+		#$AnimatedSprite2D.animation = "walk" + direction
 			
-		if velocity == Vector2(0, 0):
-			pass
-			#$AnimatedSprite2D.animation = "idle" + direction
+	if velocity == Vector2(0, 0):
+		pass
+		#$AnimatedSprite2D.animation = "idle" + direction
 
-		#$AnimatedSprite2D.play()
-		position += velocity
+	#$AnimatedSprite2D.play()
+	position += velocity
 
 # include pokemon team comp here, at some point send it to the battle scene. 
 # also include bag.
@@ -67,3 +66,12 @@ func _on_area_entered(area: Area2D) -> void:
 
 func _on_battle_started():
 	in_battle = true
+
+
+# enemies, how are they handled.
+# they have a db already.
+# there will be a scene for each enemy.
+# if there are multiple enemies, simply multiple scenes will be loaded.
+# most likely there will ahve to be a check for what enemies are with each enemy, and how many there are
+# so it doesnt get overwhelming
+# but thats a gameplay change; first, gameplay needs to be possible. 
