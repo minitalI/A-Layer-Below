@@ -1,7 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://dl2l0dxnwvaon"]
+[gd_scene load_steps=4 format=3 uid="uid://d0akrjry1nkd5"]
 
-[ext_resource type="Script" uid="uid://dywmj57ky4lea" path="res://grass.gd" id="1_kl2qe"]
-[ext_resource type="Texture2D" uid="uid://bbdwvvaf6e3le" path="res://assets/env/GRASS.png" id="2_mw2ei"]
+[sub_resource type="GDScript" id="GDScript_mlfo1"]
+script/source = "extends Area2D
+
+
+func _ready():
+	SignalBus.battle_started.connect(_on_battle_started)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func _on_battle_started():
+	hide()
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mlfo1"]
 size = Vector2(14, 16)
@@ -10,7 +23,7 @@ size = Vector2(14, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_mw2ei")
+"texture": null
 }],
 "loop": true,
 "name": &"touched",
@@ -18,7 +31,7 @@ animations = [{
 }]
 
 [node name="Grass" type="Area2D"]
-script = ExtResource("1_kl2qe")
+script = SubResource("GDScript_mlfo1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_mlfo1")

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://blbsqw07h4hon"
-path="res://.godot/imported/mini min.jpg-c454422b992a7346f09ac8a6d0309f09.ctex"
+path="res://.godot/imported/mini min.jpg-ed72cf791cd14952c1865bd1b8354e40.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://mini min.jpg"
-dest_files=["res://.godot/imported/mini min.jpg-c454422b992a7346f09ac8a6d0309f09.ctex"]
+source_file="res://assets/mc/mini min.jpg"
+dest_files=["res://.godot/imported/mini min.jpg-ed72cf791cd14952c1865bd1b8354e40.ctex"]
 
 [params]
 

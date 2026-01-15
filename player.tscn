@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c3pqoxpupoh0g"]
 
 [ext_resource type="Script" uid="uid://dnm283p3vwlnp" path="res://player.gd" id="1_sweqy"]
-[ext_resource type="Texture2D" uid="uid://blbsqw07h4hon" path="res://mini min.jpg" id="2_onrkg"]
+[ext_resource type="Texture2D" uid="uid://blbsqw07h4hon" path="res://assets/mc/mini min.jpg" id="2_onrkg"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
 animations = [{
@@ -173,3 +173,4 @@ shape = SubResource("RectangleShape2D_i3pqv")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

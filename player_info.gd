@@ -1,6 +1,6 @@
 extends Node
 
-@export var health: int = 0
+@export var health: int = 1000
 @export var attack: int = 0
 @export var defense: int = 0
 @export var level: int = 1
