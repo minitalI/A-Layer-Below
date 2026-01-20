@@ -5,6 +5,7 @@ extends Node
 @export var defense: int = 0
 @export var level: int = 1
 @export var experience: int = 0
+@export var skills: Array = [{"Skill 1" : {"Stat1" : 15, "Stat 2" : 24}}]
 
 # also needs to store the skills the player can learn
 # Called when the node enters the scene tree for the first time.

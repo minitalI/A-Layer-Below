@@ -2,24 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ed05hjedvjeu" path="res://fightHUD.gd" id="1_4jl1m"]
 [ext_resource type="Texture2D" uid="uid://bgir3pn0137dr" path="res://icon.svg" id="2_m6wut"]
-[ext_resource type="Texture2D" uid="uid://blbsqw07h4hon" path="res://mini min.jpg" id="3_4jl1m"]
+[ext_resource type="Texture2D" uid="uid://blbsqw07h4hon" path="res://assets/mc/mini min.jpg" id="3_4jl1m"]
 
 [node name="Fight" type="CanvasLayer"]
 script = ExtResource("1_4jl1m")
-
-[node name="Pokemon3" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-position = Vector2(847, 195)
-scale = Vector2(5, 5)
-script = null
 
 [node name="MoveSelection" type="CanvasLayer" parent="."]
 

@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5pa6mcu1i5s2"]
+[gd_scene load_steps=4 format=3 uid="uid://c5pa6mcu1i5s2"]
 
 [ext_resource type="Script" uid="uid://cqos7ntk35udq" path="res://playerfight.gd" id="1_7fyvv"]
-[ext_resource type="Texture2D" path="res://mini min.jpg" id="2_h3m6c"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
 animations = [{
@@ -36,7 +35,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_h3m6c")
+"texture": null
 }],
 "loop": true,
 "name": &"idleUp",

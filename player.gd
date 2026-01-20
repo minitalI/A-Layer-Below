@@ -3,7 +3,7 @@ extends Area2D
 var rng = RandomNumberGenerator.new()
 var run: bool = false
 var direction: String = "Down"
-@export var speed: int = 100
+@export var speed: int = 100 # probably should be in caps but whatever
 @export var invincibility_window: int = .08
 
 func _ready() -> void:
