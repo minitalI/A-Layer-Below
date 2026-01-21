@@ -1,5 +1,7 @@
 extends Node
 
+@export var speed: int = 100
+@export var invincibility_window: int = .08
 @export var health: int = 1000
 @export var attack: int = 0
 @export var defense: int = 0

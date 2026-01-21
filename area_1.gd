@@ -1,14 +1,15 @@
 extends Node
 
-signal battle_started()
-signal player_hit()
-signal start_game()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	SignalBus.start_game.connect(_on_game_started)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func _on_game_started():
+	$Area1.show()
+	print("yay you did it congrats")

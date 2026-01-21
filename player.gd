@@ -3,8 +3,8 @@ extends Area2D
 var rng = RandomNumberGenerator.new()
 var run: bool = false
 var direction: String = "Down"
-@export var speed: int = 100 # probably should be in caps but whatever
-@export var invincibility_window: int = .08
+
+
 
 func _ready() -> void:
 	pass
@@ -14,23 +14,28 @@ func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO
 	if Input.is_action_pressed("up"):
 		direction = "Up"
-		velocity += Vector2(0, -speed * delta)
+		velocity += Vector2(0, -PlayerInfo.speed * delta)
 			
 	if Input.is_action_pressed("down"):
 		direction = "Down"
-		velocity += Vector2(0, speed * delta)
+		velocity += Vector2(0, PlayerInfo.speed * delta)
 			
 	if Input.is_action_pressed("left"):
 		direction = "Left"
-		velocity += Vector2(-speed * delta, 0)
+		velocity += Vector2(-PlayerInfo.speed * delta, 0)
 			
 	if Input.is_action_pressed("right"):
 		direction = "Right"
-		velocity += Vector2(speed * delta, 0)
+		velocity += Vector2(PlayerInfo.speed * delta, 0)
 		
 	if Input.is_action_pressed("run"):
 		run = not run
 	
+	# because player moves faster if going diagonally. 
+	# .4 because thats the hypontenouse
+	if velocity.x != 0 and velocity.y != 0:
+		velocity -= Vector2((velocity.x * .4), (velocity.y * .4))
+		
 	# might want animations for non cardinal directions, dunno. 
 	# definitely will want to hard code what animation plays when going in a direction.
 	

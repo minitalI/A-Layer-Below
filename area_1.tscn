@@ -1,0 +1,103 @@
+[gd_scene load_steps=4 format=3 uid="uid://cot7csm7p4yke"]
+
+[ext_resource type="Script" uid="uid://rruhvq0jdxa3" path="res://area_1.gd" id="1_2n87t"]
+[ext_resource type="PackedScene" uid="uid://txuww1rd1o4f" path="res://battle_zone.tscn" id="2_2krqq"]
+[ext_resource type="PackedScene" uid="uid://c3pqoxpupoh0g" path="res://player.tscn" id="3_2krqq"]
+
+[node name="Area 1" type="Node"]
+script = ExtResource("1_2n87t")
+
+[node name="battleZone" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(418, 62)
+
+[node name="battleZone2" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(483, 262)
+
+[node name="battleZone3" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(465, 372)
+
+[node name="battleZone6" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(534, 334)
+
+[node name="battleZone7" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(534, 265)
+
+[node name="battleZone8" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(483, 317)
+
+[node name="battleZone9" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(286, 427)
+
+[node name="battleZone4" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(562, 389)
+
+[node name="battleZone10" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(604, 241)
+
+[node name="battleZone11" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(586, 351)
+
+[node name="battleZone12" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(655, 313)
+
+[node name="battleZone13" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(655, 244)
+
+[node name="battleZone14" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(604, 296)
+
+[node name="battleZone15" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(683, 368)
+
+[node name="battleZone16" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(493, 417)
+
+[node name="battleZone17" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(475, 527)
+
+[node name="battleZone18" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(544, 489)
+
+[node name="battleZone19" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(544, 420)
+
+[node name="battleZone20" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(493, 472)
+
+[node name="battleZone21" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(572, 544)
+
+[node name="battleZone22" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(614, 396)
+
+[node name="battleZone23" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(596, 506)
+
+[node name="battleZone24" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(665, 468)
+
+[node name="battleZone25" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(665, 399)
+
+[node name="battleZone26" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(614, 451)
+
+[node name="battleZone27" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(693, 523)
+
+[node name="battleZone5" parent="." instance=ExtResource("2_2krqq")]
+position = Vector2(152, 217)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 744.0
+offset_top = 265.0
+offset_right = 784.0
+offset_bottom = 288.0
+text = "note:
+this is horribly optimized and 
+should probably just be one scene
+with a bunch of squares and one hitbox
+that is also better for gameplay 
+purposes"
+
+[node name="Player" parent="." instance=ExtResource("3_2krqq")]
