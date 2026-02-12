@@ -8,52 +8,59 @@
 script = ExtResource("1_4jl1m")
 
 [node name="MoveSelection" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="MoveSelection"]
+visible = false
 offset_left = -88.0
 offset_top = 472.0
 offset_right = 1187.0
 offset_bottom = 676.0
 color = Color(0.2824075, 0.28240746, 0.28240746, 1)
 
-[node name="Move1" type="Button" parent="MoveSelection"]
-offset_left = 20.0
-offset_top = 472.0
-offset_right = 435.0
-offset_bottom = 555.0
-disabled = true
-text = "NAME OF MOVE"
-
 [node name="Move2" type="Button" parent="MoveSelection"]
-offset_left = 443.0
-offset_top = 561.0
-offset_right = 865.0
-offset_bottom = 644.0
+visible = false
+offset_left = 437.0
+offset_top = 530.0
+offset_right = 631.0
+offset_bottom = 613.0
 disabled = true
 text = "naME of move"
 
 [node name="Move3" type="Button" parent="MoveSelection"]
-offset_left = 20.0
-offset_top = 563.0
-offset_right = 435.0
-offset_bottom = 644.0
+visible = false
+offset_left = 639.0
+offset_top = 532.0
+offset_right = 858.0
+offset_bottom = 613.0
 disabled = true
 text = "NAME OF MOVE"
 
 [node name="Move4" type="Button" parent="MoveSelection"]
-offset_left = 443.0
-offset_top = 474.0
-offset_right = 864.0
-offset_bottom = 557.0
+visible = false
+offset_left = 188.0
+offset_top = 530.0
+offset_right = 429.0
+offset_bottom = 613.0
+disabled = true
+text = "NAME OF MOVE"
+
+[node name="Move1" type="Button" parent="MoveSelection"]
+visible = false
+offset_left = 18.0
+offset_top = 530.0
+offset_right = 180.0
+offset_bottom = 613.0
 disabled = true
 text = "NAME OF MOVE"
 
 [node name="SelectionTypeBox" type="ColorRect" parent="MoveSelection"]
-offset_left = 909.0
-offset_top = 488.0
-offset_right = 1124.0
-offset_bottom = 633.0
+offset_left = 884.0
+offset_top = 484.0
+offset_right = 1099.0
+offset_bottom = 629.0
 color = Color(0.466667, 0.466667, 0.466667, 0.776471)
+metadata/_edit_group_ = true
 
 [node name="Type" type="Label" parent="MoveSelection/SelectionTypeBox"]
 layout_mode = 0
@@ -97,6 +104,7 @@ theme_override_font_sizes/font_size = 30
 text = "HP"
 
 [node name="BattleTextBG" type="ColorRect" parent="."]
+visible = false
 offset_top = 472.0
 offset_right = 1157.0
 offset_bottom = 639.0
@@ -130,17 +138,17 @@ theme_override_font_sizes/font_size = 35
 text = "SKILLS"
 
 [node name="Run" type="Button" parent="Options"]
-offset_left = 35.0
+offset_left = 22.0
 offset_top = 336.0
-offset_right = 251.0
+offset_right = 238.0
 offset_bottom = 408.0
 theme_override_font_sizes/font_size = 35
 text = "RUN"
 
 [node name="Pokemon" type="Button" parent="Options"]
-offset_left = 28.0
+offset_left = 23.0
 offset_top = 248.0
-offset_right = 244.0
+offset_right = 239.0
 offset_bottom = 320.0
 theme_override_font_sizes/font_size = 35
 text = "BAG"
@@ -189,14 +197,14 @@ position = Vector2(491.00003, 367)
 scale = Vector2(0.79545456, 0.7553192)
 texture = ExtResource("3_4jl1m")
 
-[connection signal="mouse_entered" from="MoveSelection/Move1" to="." method="_on_move_1_mouse_entered"]
-[connection signal="pressed" from="MoveSelection/Move1" to="." method="_on_move_1_pressed"]
 [connection signal="mouse_entered" from="MoveSelection/Move2" to="." method="_on_move_2_mouse_entered"]
 [connection signal="pressed" from="MoveSelection/Move2" to="." method="_on_move_2_pressed"]
 [connection signal="mouse_entered" from="MoveSelection/Move3" to="." method="_on_move_3_mouse_entered"]
 [connection signal="pressed" from="MoveSelection/Move3" to="." method="_on_move_3_pressed"]
 [connection signal="mouse_entered" from="MoveSelection/Move4" to="." method="_on_move_4_mouse_entered"]
 [connection signal="pressed" from="MoveSelection/Move4" to="." method="_on_move_4_pressed"]
+[connection signal="mouse_entered" from="MoveSelection/Move1" to="." method="_on_move_1_mouse_entered"]
+[connection signal="pressed" from="MoveSelection/Move1" to="." method="_on_move_1_pressed"]
 [connection signal="pressed" from="Options/Fight" to="." method="_on_fight_pressed"]
 [connection signal="pressed" from="Options/Bag" to="." method="_on_bag_pressed"]
 [connection signal="pressed" from="Options/Run" to="." method="_on_run_pressed"]

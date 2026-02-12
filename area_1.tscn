@@ -7,11 +7,93 @@
 [node name="Area 1" type="Node"]
 script = ExtResource("1_2n87t")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -3077.0
+offset_top = -1744.0
+offset_right = 4667.0
+offset_bottom = 3755.0
+color = Color(0.16470589, 0.59607846, 0.11764706, 1)
+
 [node name="battleZone" parent="." instance=ExtResource("2_2krqq")]
 position = Vector2(418, 62)
 
 [node name="battleZone2" parent="." instance=ExtResource("2_2krqq")]
 position = Vector2(483, 262)
+
+[node name="battleZone2" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-891, -394)
+
+[node name="battleZone3" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-909, -284)
+
+[node name="battleZone6" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-840, -322)
+
+[node name="battleZone7" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-840, -391)
+
+[node name="battleZone8" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-891, -339)
+
+[node name="battleZone9" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-1088, -229)
+
+[node name="battleZone4" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-812, -267)
+
+[node name="battleZone10" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-770, -415)
+
+[node name="battleZone11" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-788, -305)
+
+[node name="battleZone12" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-719, -343)
+
+[node name="battleZone13" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-719, -412)
+
+[node name="battleZone14" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-770, -360)
+
+[node name="battleZone15" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-691, -288)
+
+[node name="battleZone16" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-881, -239)
+
+[node name="battleZone17" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-899, -129)
+
+[node name="battleZone18" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-830, -167)
+
+[node name="battleZone19" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-830, -236)
+
+[node name="battleZone20" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-881, -184)
+
+[node name="battleZone21" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-802, -112)
+
+[node name="battleZone22" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-760, -260)
+
+[node name="battleZone23" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-778, -150)
+
+[node name="battleZone24" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-709, -188)
+
+[node name="battleZone25" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-709, -257)
+
+[node name="battleZone26" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-760, -205)
+
+[node name="battleZone27" parent="battleZone2" instance=ExtResource("2_2krqq")]
+position = Vector2(-681, -133)
 
 [node name="battleZone3" parent="." instance=ExtResource("2_2krqq")]
 position = Vector2(465, 372)

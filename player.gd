@@ -4,8 +4,6 @@ var rng = RandomNumberGenerator.new()
 var run: bool = false
 var direction: String = "Down"
 
-
-
 func _ready() -> void:
 	pass
 	# probably going to want to connect a signal for when the phase changes from trust to control, to spawn.
@@ -65,16 +63,11 @@ func _on_area_entered(area: Area2D) -> void:
 	print("You entered enemy territory.")
 	if rng.randi_range(0, 11) == 1:
 		print("A battle has started!")
-		SignalBus.battle_started.emit()
+		# this is kind of an ugly solution and it feels like the encounter should not 
+		# actually be determined in the player script, but it works so we ride ig
+		
+		var fight = GameManager.load_fight_logic()
+		get_tree().change_scene_to_file("res://fight.tscn")
 
-
-# enemies, how are they handled.
-# they have a db already.
-# there will be a scene for each enemy.
-# if there are multiple enemies, simply multiple scenes will be loaded.
-# most likely there will ahve to be a check for what enemies are with each enemy, and how many there are
-# so it doesnt get overwhelming
-# but thats a gameplay change; first, gameplay needs to be possible. 
-# so for now just get enemies working.
-# that said, there should be an amount of randomness in some attacks, for variety and so that it even kind
-# of works with multiple enemies.
+		#fight.on_battle_started(enemy) # maybe have to like send over both fight and 
+		SignalBus.battle_started.emit(Enemy.new().get_enemy())

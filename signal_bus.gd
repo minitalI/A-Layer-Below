@@ -1,8 +1,10 @@
 extends Node
 
-signal battle_started()
+signal battle_started(enemy)
 signal player_hit()
 signal start_game()
+signal attack()
+signal skill(skill)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

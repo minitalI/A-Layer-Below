@@ -30,6 +30,9 @@ func _process(delta: float) -> void:
 		
 	if Input.is_action_pressed("run"):
 		run = not run
+		
+	if Input.is_action_pressed("attack"):
+		SignalBus.attack.emit()
 	
 	# might want animations for non cardinal directions, dunno. 
 	# definitely will want to hard code what animation plays when going in a direction.
@@ -48,21 +51,6 @@ func _process(delta: float) -> void:
 	#$AnimatedSprite2D.play()
 	position += velocity
 
-func _on_area_entered(area: AnimatableBody2D) -> void:
-	# 6% for most caves and the like, and 2.2% when Surfing.
-	# 40% decrease when first entered
-	
-	#not working dunno why
-	#if $CollisionShape2D.disabled == true:
-		#$CollisionShape2D.set_deferred("disabled", not $CollisionShape2D.disabled)
-		
-
-	print("You entered enemy territory.")
-	if rng.randi_range(0, 11) == 1:
-		print("A battle has started!")
-		SignalBus.battle_started.emit()
-
-
 # enemies, how are they handled.
 # they have a db already.
 # there will be a scene for each enemy.
@@ -73,7 +61,6 @@ func _on_area_entered(area: AnimatableBody2D) -> void:
 # so for now just get enemies working.
 # that said, there should be an amount of randomness in some attacks, for variety and so that it even kind
 # of works with multiple enemies.
-
 
 func _on_body_entered(body: Node2D) -> void:
 	set_deferred("monitoring", false)

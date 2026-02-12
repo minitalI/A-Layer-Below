@@ -9,99 +9,102 @@ var def_modifier = 1
 var spd_modifier = 1
 var spe_modifier = 1
 var crt_modifier = 0
+var enemy = null
+var rng = RandomNumberGenerator.new()
 
 func _ready() -> void:
-	SignalBus.battle_started.connect(_on_battle_started)
-	SignalBus.fight_pressed2.connect(_on_fight_pressed2) # these are all theoretically applicable here. 
-
-func _on_battle_started():
-	pass 
-
-func do_damage(enemy_name, skill):  
-	var damage = 1
-	var enemy = EnemyDB.enemies[enemy_name] # index by chosen enemy
-	 # send the damage and what move was done
-	if !skill.dtype == "Status": # there will be status, at least in take control and let go
-		# potentially take control and let go are builds, and change either combat in bullet hell mode or 
-		# combat in turn based mode
-		if skill.extra[0] != null:
-			do_extra_effects(skill)
-			# first check pp, and make the battle text say something about being out of pp
-			# if every move is out of pp, make it default to struggle. Somewhere else, also change the name to struggle n stuff.
-			
-			# get the corresponding stat of the other pokemon
-				# def / spd <-- modifiers (iron defense) and abilities should be here
-				# atk / spa
-				# abilities
-			enemy.hp # ehp -- enemy hp
-			var edef = enemy.def
-			var espd = enemy.spd
-			# assume no relevant abilities for now
-			
-			
-			# calculate damage
-				# check damage of move
-				# check stab
-				# check gimmic, ie tera
-				# check effectiveness 
-				# check miss
-				# check abilities
-				# send signal to update the text as this is going along
-			# name, type, attack type, damage, hit chance, pp, other effects
-			var stab = 1
-			
-			var crit = calculate_crit(crt_modifier)
-			
-			# it was a crit!
-			
-			# check effectiveness
-			# damage formula should actually be like d * a + m(a * g)^e - (d^e * f - (e + n + s) - e) the exact formula can be modified as needed
-			# d is random, a is the weapon attack stat, m is min attack stat, g is weakness, e is eulers number. f is enemy defense, n is the number of hits the move does, s is for the number of enemies it hits
-			
-			# damage = ((((2 x level) / 5) x power(ofmove) x (atk / def) / 50) + 2) x 
-			# targets(.75 if 2, 1 if 1) x pb(parental bond) x weather x glaiverush x critical (1.5) x random(85 - 100 / 100) x stab x type x burn x other 
-			var damage1 = 2 * PlayerInfo.level
-			var damage2 = skill.damage
-			var damage3 = (PlayerInfo.atk * atk_modifier) / edef
-			var damage4 = randf_range(85, 100) / 100.0
-			var damage5 = ((damage1 / 5) * damage2 * damage3 / 50) + 2
-			#damage = int(damage5 * damage4 * stab)
+	SignalBus.battle_started.connect(on_battle_started)
+	SignalBus.skill.connect(_on_skill)
+	
+func on_battle_started(e):
+	enemy = e
+	
+# probably a different function should make the enemy
+# probably on_battle_started
+func do_damage(skill):  
+	skill = PlayerInfo.skills[skill]
+	if rng.randi_range(0, 100) <= skill.accuracy:
+		
+		var damage = 1 # index by chosen enemy
+		
+		 # send the damage and what move was done
+		#if !skill.dtype == "Status": # there will be status, at least in take control and let go
+			# potentially take control and let go are builds, and change either combat in bullet hell mode or 
+			# combat in turn based mode
+			#if skill.extra[0] != null:
+				#do_extra_effects(skill)
+				# first check pp, and make the battle text say something about being out of pp
+				# if every move is out of pp, make it default to struggle. Somewhere else, also change the name to struggle n stuff.
 				
-			damage = ((((damage1) / 5) * damage2 * (damage3) / 50) + 2) * damage4 * stab 
-			damage *= crit
-				
-				
-			if damage <= 0:
-				damage = 1
-				
-			# subtract the other pokemon's health
-				# simple health minus damage
-				# send signal along with new health to HUD
-				# update HUD there
-				# hide all the other stuff down there, disable buttons and whatnot
-				# show the prompttext
-				# change prompttext to say what happened
+				# get the corresponding stat of the other pokemon
+					# def / spd <-- modifiers (iron defense) and abilities should be here
+					# atk / spa
+					# abilities
+		enemy.health # ehp -- enemy hp
+		var edef = enemy.defense #ENEMIES NEED DEFENSE
+		# assume no relevant abilities for now
+		
+		
+		# calculate damage
+			# check damage of move
+			# check stab
+			# check gimmic, ie tera
+			# check effectiveness 
+			# check miss
+			# check abilities
+			# send signal to update the text as this is going along
+		# name, type, attack type, damage, hit chance, pp, other effects
+		var stab = 1
+		
+		var crit = calculate_crit(crt_modifier)
+		
+		# it was a crit!
+		
+		# check effectiveness
+		# damage formula should actually be like d * a + m(a * g)^e - (d^e * f - (e + n + s) - e) the exact formula can be modified as needed
+		# d is random, a is the weapon attack stat, m is min attack stat, g is weakness, e is eulers number. f is enemy defense, n is the number of hits the move does, s is for the number of enemies it hits
+		
+		# damage = ((((2 x level) / 5) x power(ofmove) x (atk / def) / 50) + 2) x 
+		# targets(.75 if 2, 1 if 1) x pb(parental bond) x weather x glaiverush x critical (1.5) x random(85 - 100 / 100) x stab x type x burn x other 
+		var damage1 = 2 * PlayerInfo.level
+		var damage2 = skill.damage
+		var damage3 = (PlayerInfo.attack * atk_modifier) / edef
+		var damage4 = randf_range(85, 100) / 100.0
+		var damage5 = ((damage1 / 5) * damage2 * damage3 / 50) + 2
+		#damage = int(damage5 * damage4 * stab)
 			
-			if enemy.hp - damage <= 0:
-				damage = enemy.hp # consider changing, simply so that damage can go really high
-			enemy.hp -= damage
+		damage = ((((damage1) / 5) * damage2 * (damage3) / 50) + 2) * damage4 
+		damage *= crit
 			
-			if skill.extra[0] == "drain":
-				var percent = skill.extra[1] / 100.0
-				var heal = damage * percent
-				var max_hp = PlayerInfo.health
-				if heal < 1:
-					heal = 1
-				if (not heal + PlayerInfo.health > max_hp):
-					PlayerInfo.health += heal
+			
+		if damage <= 0:
+			damage = 1
+			
+		# subtract the other pokemon's health
+			# simple health minus damage
+			# send signal along with new health to HUD
+			# update HUD there
+			# hide all the other stuff down there, disable buttons and whatnot
+			# show the prompttext
+			# change prompttext to say what happened
 
-			if crit > 1:
-				SignalBus.battle_text.emit({"crit" : true})
+		enemy.health -= damage
+			
+		if skill.extra == "drain":
+			var percent = skill.extra[1] / 100.0
+			var heal = damage * percent
+			var max_hp = PlayerInfo.health
+			if heal < 1:
+				heal = 1
+			if (not heal + PlayerInfo.health > max_hp):
+				PlayerInfo.health += heal
+		if crit > 1:
+			SignalBus.battle_text.emit({"crit" : true})
+		await get_tree().create_timer(2).timeout 
+		# change hud by emitting signal with a dict
+		# also, if enemy health <= 0, queue.free()
 
-			await get_tree().create_timer(2).timeout 
-			# change hud by emitting signal with a dict
-		else:
-			do_extra_effects(skill)
+		do_extra_effects(skill)
 		
 		# then, make the scene transition to control mode, send a signal to the HUD and to a scene for each enemy.	
 	
@@ -111,10 +114,15 @@ func do_damage(enemy_name, skill):
 #  func _on_skill(skill_number):
 	# var skill = PlayerInfo.skills[skill_number]
 	# do damage(skill)
-
+	
+func _on_skill(skill):
+	# the name of the enemy will have to be gotten at some point.
+	# honestly im not sure if it'd be better to just make a global enemy though.
+	# probably it would, but also maybe instead of passing the 
+	do_damage(skill)
+	
 func _on_attack():
-	var enemy = EnemyDB.enemies[0]["Abstracto"]
-	do_damage(enemy, PlayerInfo.attack)
+	do_damage(PlayerInfo.attack)
 	
 func calculate_crit(crt_modifier):
 	#var threshold = mon.speed
@@ -143,22 +151,26 @@ func calculate_crit(crt_modifier):
 	return crit
 	
 #atx2 sax2 sdx2 spx2 dex2 cr+15 he+50 hl+50
-func do_extra_effects(move):
-	match move.extra[0]:
+func do_extra_effects(skill):
+	match skill.extra:
+		"tired":
+			pass # enemy bullets move slower
+		"skillCheck":
+			pass # if skill missed, does damage to Min
 		"attack":
-			atk_modifier = move.extra[1]
+			atk_modifier = skill.extra			
 		"special attack":
-			spa_modifier = move.extra[1]
+			spa_modifier = skill.extra
 		"defense":
-			def_modifier = move.extra[1]
+			def_modifier = skill.extra
 		"special defense":
-			spd_modifier = move.extra[1]
+			spd_modifier = skill.extra
 		"speed":
-			spe_modifier = move.extra[1]
+			spe_modifier = skill.extra
 		"crit":
-			crt_modifier = move.extra[1]
+			crt_modifier = skill.extra
 		"heal":
-			var heal = PlayerInfo.health * (move.extra[1] / 100)
+			var heal = PlayerInfo.health * (skill.extra / 100)
 			var max_hp = PlayerInfo.health
 			
 			if (heal < 1):
@@ -167,6 +179,6 @@ func do_extra_effects(move):
 			if (not heal + PlayerInfo.health > max_hp):
 				PlayerInfo.health += heal
 
-func _on_fight_pressed2(): # why?
+func _on_fight_pressed2(): # why? 
 	SignalBus.fight_pressed3.emit(team[0].move1, team[0].move2, team[0].move3, team[0].move4)
-	
+	# it was to get the moves and send it back to the hud.................

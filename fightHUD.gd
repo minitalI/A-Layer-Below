@@ -18,15 +18,11 @@ var move4
 # The opposing Venusaur restored a little HP using its Leftovers!
 
 
-
+# this is horrifying.
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SignalBus.battle_started.connect(_on_battle_started)
-	SignalBus.battle_text.connect(_on_battle_text)
-	SignalBus.pokemon1_HUD.connect(_on_pokemon1_HUD)
-	SignalBus.pokemon2_HUD.connect(_on_pokemon2_HUD)
-	SignalBus.fight_pressed3.connect(_on_fight_pressed3)
 	#SignalBus.damage_calculated.connect(_on_damage_calculated)
 	
 
@@ -35,28 +31,36 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_battle_started():
-	visible = true
-	$Pokemon1HUD.visible = true
-	$Pokemon2HUD.visible = true
 	$BattleTextBG.visible = false
 	$MoveSelection.visible = false
 
+
 func _on_fight_pressed() -> void:
-	SignalBus.fight_pressed2.emit()
-	
-func _on_fight_pressed3(pmove1, pmove2, pmove3, pmove4) -> void:
-	move1 = pmove1
-	move2 = pmove2
-	move3 = pmove3
-	move4 = pmove4
-	$"MoveSelection/Move1".disabled = false
-	$"MoveSelection/Move2".disabled = false
-	$"MoveSelection/Move3".disabled = false
-	$"MoveSelection/Move4".disabled = false
-	$"MoveSelection/Move1".text = move1.id
-	$"MoveSelection/Move2".text = move2.id
-	$"MoveSelection/Move3".text = move3.id
-	$"MoveSelection/Move4".text = move4.id
+	var i = 0
+	for skill in PlayerInfo.skills:
+		# ig then make a box for each skill with the name [skill] so it can be done iterably.
+		# wait
+		# how do
+		# could do that, but also, if individual skills have different boxes. 
+		# aha
+		# make a list of buttons, the buttons are not there before, instantiate as you go
+		var btn = Button.new() # or create a button scene instead
+		btn.text = skill
+		btn.pressed.connect(_on_skill.bind(skill))
+		btn.mouse_entered.connect(_on_skill_mouse_entered.bind(skill))
+		btn.size = Vector2(160, 80) # it would be fun to change the size based on the size of the text
+		# that way differently long names could be differently big.
+		# also, something needs to be in place so that if it goes far enough, it just makes another layer
+		# that for now could be if i > 4, but when 4 isn't an indicator of ow far it goes,
+		# it'll have to be something more complex, like if 50 + i > xyz
+		# either that or have the skills scroll
+		
+		btn.position = Vector2(50 + i, 520)
+		i += 200 # ideally, the size of the last one + 20 or so
+		add_child(btn)
+		
+		# probably should make all buttons like this, custom signals and all.
+		
 	$MoveSelection.visible = true
 	$PromptTextBG.visible = false
 	
@@ -73,33 +77,13 @@ func _on_pokemon_pressed() -> void:
 
 # seems like you could probably loop this. for move in moves: move x connect move x pressed or hovered
 # func move x pressed do move x effect, func move x hovered display move x information
-func _on_move_1_pressed() -> void:
-	SignalBus.move1.emit() # pass the logic to pokemon, just cos it's easier to keep track of moves there. 
-
-func _on_move_2_pressed() -> void:
-	SignalBus.move2.emit() # attack with move 2
-
-func _on_move_3_pressed() -> void:
-	SignalBus.move3.emit() # attack with move 3
-
-func _on_move_4_pressed() -> void:
-	SignalBus.move4.emit() # attack with move 4
-
-func _on_move_1_mouse_entered() -> void:
-	$MoveSelection/SelectionTypeBox/Type.text = move1.type
-	$MoveSelection/SelectionTypeBox/PP.text = "PP: " + str(move1.pp)
-
-func _on_move_2_mouse_entered() -> void:
-	$MoveSelection/SelectionTypeBox/Type.text = move2.type
-	$MoveSelection/SelectionTypeBox/PP.text = "PP: " + str(move2.pp)
-
-func _on_move_3_mouse_entered() -> void:
-	$MoveSelection/SelectionTypeBox/Type.text = move3.type
-	$MoveSelection/SelectionTypeBox/PP.text = "PP: " + str(move3.pp)
-
-func _on_move_4_mouse_entered() -> void:
-	$MoveSelection/SelectionTypeBox/Type.text = move4.type
-	$MoveSelection/SelectionTypeBox/PP.text = "PP: " + str(move4.pp)
+func _on_skill(skill):
+	SignalBus.skill.emit(skill)
+	
+func _on_skill_mouse_entered(skill):
+	print("wowow you did it yay you hovered over the box with your mouse")
+	#$MoveSelection/SelectionTypeBox/Type.text = move1.type
+	#$MoveSelection/SelectionTypeBox/PP.text = "PP: " + str(move1.pp)
 
 # find out how to make the stuff not neccessary
 # overload the function, probably
@@ -147,11 +131,6 @@ func _on_battle_text(packet: Dictionary):
 			
 	await get_tree().create_timer(2).timeout 
 
-func _on_pokemon1_HUD():
-	pass
-	
-func _on_pokemon2_HUD():
-	pass
 #func _on_damage_calculated() -> void:
 	#pass
 	#update HUD there
@@ -159,3 +138,15 @@ func _on_pokemon2_HUD():
 			# show the prompttext
 			# change prompttext to say what happened
 # if caught, send a signal, append to team.
+
+# autoloads:
+   #Are always loaded, no matter which scene is currently running.
+
+   #Can store global variables such as player information.
+
+   #Can handle switching scenes and between-scene transitions.
+
+   #Act like a singleton, since GDScript does not support global variables by design.
+
+# this does not seem like fight logic fits the autoload paradigm. 
+# that said

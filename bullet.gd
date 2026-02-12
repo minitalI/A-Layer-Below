@@ -22,7 +22,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var velocity = transform.x * speed * delta
 	position += velocity
-	
+
 func _on_player_hit():
 				# damage formula should actually be like d * a + m(a * g)^e - (d^e * f - (e + n + s) - e) the exact formula can be modified as needed
 			# d is random, a is the weapon attack stat, m is min attack stat, g is weakness, e is eulers number. f is enemy defense, n is the number of hits the move does, s is for the number of enemies it hit
