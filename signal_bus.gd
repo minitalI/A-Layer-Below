@@ -5,6 +5,7 @@ signal player_hit()
 signal start_game()
 signal attack()
 signal skill(skill)
+signal send_battle_text(packet)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

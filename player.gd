@@ -67,7 +67,13 @@ func _on_area_entered(area: Area2D) -> void:
 		# actually be determined in the player script, but it works so we ride ig
 		
 		var fight = GameManager.load_fight_logic()
+		# something happened, dunno what. 
+		# probably the cat sat on the laptop and messed something up
+		# now it wont switch to the fight scene, some scenes won't save
+		# and also GameManager won't instantiate a fightlogic scene 
 		get_tree().change_scene_to_file("res://fight.tscn")
-
-		#fight.on_battle_started(enemy) # maybe have to like send over both fight and 
+		
 		SignalBus.battle_started.emit(Enemy.new().get_enemy())
+		# for some reason it's complaining many, many times if its sent with an argument
+		# and one if its sent with an argument.
+		# i think the enemy is sent though? 

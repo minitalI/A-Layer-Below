@@ -166,10 +166,9 @@ layout_mode = 0
 offset_left = 32.0
 offset_top = 10.0
 offset_right = 546.0
-offset_bottom = 158.0
+offset_bottom = 175.0
 theme_override_font_sizes/font_size = 38
-text = "What will
-you do?"
+text = "What will you do?"
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(926, 77)
@@ -177,10 +176,10 @@ scale = Vector2(1.03125, 1.2578125)
 texture = ExtResource("2_m6wut")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 591.0
-offset_top = 321.0
-offset_right = 1024.0
-offset_bottom = 448.0
+offset_left = 587.0
+offset_top = 183.0
+offset_right = 1068.0
+offset_bottom = 414.0
 text = "disable camera tracking and ability to move during
 move selection
 <-- needs idle animation

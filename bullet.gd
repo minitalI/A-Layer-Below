@@ -4,6 +4,7 @@ extends AnimatableBody2D
 @export var speed: int = 0
 var test = 0
 static var ready_called = false
+var frame = false
 # for some reason, even though its only being emitted once, _on_player_hit is being called like a thousand times
 # in fact, it seems to be cycling through the function several times, and THEN also its calling 
 # the function around 8 times. which is NOT correct
@@ -20,9 +21,15 @@ func _ready() -> void:
 
 # bullet movement is jittery. fix.
 func _process(delta: float) -> void:
-	var velocity = transform.x * speed * delta
-	position += velocity
-
+	frame = not frame
+	if frame == true:	
+		var velocity = transform.x * speed * delta # quantum mechanics seems to be lag related
+		# could fix by making it something like delta * .8
+		position += velocity
+		if ($VisibleOnScreenNotifier2D.is_on_screen() == false):
+			# for some reason the bullets just do not show up if not paused first
+			queue_free()
+		
 func _on_player_hit():
 				# damage formula should actually be like d * a + m(a * g)^e - (d^e * f - (e + n + s) - e) the exact formula can be modified as needed
 			# d is random, a is the weapon attack stat, m is min attack stat, g is weakness, e is eulers number. f is enemy defense, n is the number of hits the move does, s is for the number of enemies it hit

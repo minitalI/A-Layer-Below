@@ -17,12 +17,12 @@ var current_enemies : Dictionary = {
 
 var all_enemies : Dictionary = {
 	"temp" : {"health" : 100, "damage" : 5, "description" : "desc", "path" : "BabyCat", "encounter" : "100"},
-	"Abstracto" : {"health" : 80, "damage" : 10, "defense" : 20, "description" : "A remanant of a truth in the process of passing on.", "path" : "res://abstracto.tscn", "encounter" : 25},
-	"Abstractoid" : {"health" : 20, "damage" : 10, "defense" : 5, "description" : "A remnant of a truth passed on", "path" : "res://abstractoid.tscn", "encounter" : 0},
-	"The King" : {"health" : 100, "damage": 0,  "defense" : 50,"description" : "A humble elitist. Kings tend to lounge while their knights and peons do the work. Cripplingly lonely and compensate for their low self esteem by hoarding relationships like wealth.", "path" : "res://theking.tscn", "encounter" : 25},
-	"The Queen" : {"health" : 60, "damage" : 50, "defense" : 30, "description" : "A true ruler. Queen's are nimble fighters who are unafraid to go down in a fight. They would sooner die then give up their secrets.", "path" : "res://thequeen.tscn", "encounter" : 20},
-	"Kingling" : {"health" : 30, "damage" : 10, "defense" : 10, "description" : "One of a king's many followers. They would die for their king rather than develop their own sense of personhood.", "path" : "res://kingling.tscn", "encounter" : 0},
-	"Peasant" : {"health" : 50, "damage" : 30, "defense" : 20, "description" : "A ruler waiting to be born. These peasants haven't yet resolved on a path to take throughout their lives and are largely aimless.", "path" : "res://peasant.tscn", "encounter" : 25}
+	"Abstracto" : {"health" : 80, "damage" : 10, "defense" : 20, "description" : "A remanant of a truth in the process of passing on.", "name" : "Abstracto", "path" : "res://abstracto.tscn", "encounter" : 25},
+	"Abstractoid" : {"health" : 20, "damage" : 10, "defense" : 5, "description" : "A remnant of a truth passed on", "name" : "Abstractoid", "path" : "res://abstractoid.tscn", "encounter" : 0},
+	"The King" : {"health" : 100, "damage": 0,  "defense" : 50,"description" : "A humble elitist. Kings tend to lounge while their knights and peons do the work. Cripplingly lonely and compensate for their low self esteem by hoarding relationships like wealth.", "name" : "King", "path" : "res://theking.tscn", "encounter" : 25},
+	"The Queen" : {"health" : 60, "damage" : 50, "defense" : 30, "description" : "A true ruler. Queen's are nimble fighters who are unafraid to go down in a fight. They would sooner die then give up their secrets.", "name" : "Queen", "path" : "res://thequeen.tscn", "encounter" : 20},
+	"Kingling" : {"health" : 30, "damage" : 10, "defense" : 10, "description" : "One of a king's many followers. They would die for their king rather than develop their own sense of personhood.", "name" : "Kingling", "path" : "res://kingling.tscn", "encounter" : 0},
+	"Peasant" : {"health" : 50, "damage" : 30, "defense" : 20, "description" : "A ruler waiting to be born. These peasants haven't yet resolved on a path to take throughout their lives and are largely aimless.", "name" : "Peasant", "path" : "res://peasant.tscn", "encounter" : 25}
 }
 
 	# this is a whole area, then. It ought to be "the court", if we stick with this
@@ -60,6 +60,7 @@ func new_enemy(name):
 	var e = Enemy.new()
 	var enemy = all_enemies[name]
 	e.health = enemy["health"]
+	e.name = name
 	e.damage = enemy["damage"]
 	e.defense = enemy["defense"]
 	e.description = enemy["description"]

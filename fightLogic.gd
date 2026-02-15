@@ -1,5 +1,11 @@
 extends Area2D
 
+# im putting this here so i never forget
+# it seems the cat entirely destroyed my fight scene and fight logic scene
+# very glad i started to use github
+# use github more
+# like an hour of work was lost
+
 # ex: var move1 = ["Shadow Claw", "Ghost", "Physical", 70, 100, 24, "High critical hit ratio"]
 var team = []
 var enemy_team = []
@@ -18,43 +24,31 @@ func _ready() -> void:
 	
 func on_battle_started(e):
 	enemy = e
-	
-# probably a different function should make the enemy
-# probably on_battle_started
+
 func do_damage(skill):  
 	skill = PlayerInfo.skills[skill]
 	if rng.randi_range(0, 100) <= skill.accuracy:
 		
-		var damage = 1 # index by chosen enemy
 		
-		 # send the damage and what move was done
 		#if !skill.dtype == "Status": # there will be status, at least in take control and let go
 			# potentially take control and let go are builds, and change either combat in bullet hell mode or 
 			# combat in turn based mode
 			#if skill.extra[0] != null:
 				#do_extra_effects(skill)
-				# first check pp, and make the battle text say something about being out of pp
-				# if every move is out of pp, make it default to struggle. Somewhere else, also change the name to struggle n stuff.
 				
 				# get the corresponding stat of the other pokemon
 					# def / spd <-- modifiers (iron defense) and abilities should be here
 					# atk / spa
 					# abilities
-		enemy.health # ehp -- enemy hp
-		var edef = enemy.defense #ENEMIES NEED DEFENSE
-		# assume no relevant abilities for now
-		
-		
+		var edef = enemy.defense
+
 		# calculate damage
 			# check damage of move
-			# check stab
-			# check gimmic, ie tera
+			# check gimmic
 			# check effectiveness 
 			# check miss
 			# check abilities
 			# send signal to update the text as this is going along
-		# name, type, attack type, damage, hit chance, pp, other effects
-		var stab = 1
 		
 		var crit = calculate_crit(crt_modifier)
 		
@@ -64,18 +58,19 @@ func do_damage(skill):
 		# damage formula should actually be like d * a + m(a * g)^e - (d^e * f - (e + n + s) - e) the exact formula can be modified as needed
 		# d is random, a is the weapon attack stat, m is min attack stat, g is weakness, e is eulers number. f is enemy defense, n is the number of hits the move does, s is for the number of enemies it hits
 		
+		# damage4 * skill.damage * (PlayerInfo.damage * (skill.damage * (PlayerInfo.level / 5)))^e - (damage4^e * edef - (e + skill.num_hits + (figure out how many enemies hit)) - e)
 		# damage = ((((2 x level) / 5) x power(ofmove) x (atk / def) / 50) + 2) x 
 		# targets(.75 if 2, 1 if 1) x pb(parental bond) x weather x glaiverush x critical (1.5) x random(85 - 100 / 100) x stab x type x burn x other 
 		var damage1 = 2 * PlayerInfo.level
 		var damage2 = skill.damage
-		var damage3 = (PlayerInfo.attack * atk_modifier) / edef
+		var damage3 = (PlayerInfo.attack * atk_modifier + 0.0) / edef
 		var damage4 = randf_range(85, 100) / 100.0
-		var damage5 = ((damage1 / 5) * damage2 * damage3 / 50) + 2
+		var damage5 = ((((damage1 / 5.0) * damage2 * damage3)) / 5) * (skill.damage + 2 + PlayerInfo.attack)
 		#damage = int(damage5 * damage4 * stab)
-			
-		damage = ((((damage1) / 5) * damage2 * (damage3) / 50) + 2) * damage4 
+		# ((2 / 5) * 1000 * 1) / 5) + 2
+		var damage = damage5 * damage4 
 		damage *= crit
-			
+		damage = round(damage)
 			
 		if damage <= 0:
 			damage = 1
@@ -88,8 +83,8 @@ func do_damage(skill):
 			# show the prompttext
 			# change prompttext to say what happened
 
-		enemy.health -= damage
-			
+		enemy.health -= damage # skill name enemy name damage 
+		SignalBus.send_battle_text.emit({"skill" : true, "skill name" : skill["name"], "enemy name" : enemy["name"], "damage" : damage})
 		if skill.extra == "drain":
 			var percent = skill.extra[1] / 100.0
 			var heal = damage * percent
@@ -100,6 +95,7 @@ func do_damage(skill):
 				PlayerInfo.health += heal
 		if crit > 1:
 			SignalBus.battle_text.emit({"crit" : true})
+			
 		await get_tree().create_timer(2).timeout 
 		# change hud by emitting signal with a dict
 		# also, if enemy health <= 0, queue.free()
@@ -107,7 +103,8 @@ func do_damage(skill):
 		do_extra_effects(skill)
 		
 		# then, make the scene transition to control mode, send a signal to the HUD and to a scene for each enemy.	
-	
+	else:
+		SignalBus.send_battle_text.emit({"miss" : true, "skill name" : skill["name"]})
 # there is going to be more than 4 skills. it would be nice if you could figure out how to send something with the button press.
 # for an indeterminate amount of skills, something like
 # but dunno how to have the signals do custom stuff like that, buttons just send _on_pressed

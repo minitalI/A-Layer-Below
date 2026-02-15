@@ -23,6 +23,7 @@ var move4
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SignalBus.battle_started.connect(_on_battle_started)
+	SignalBus.send_battle_text.connect(_on_send_battle_text)
 	#SignalBus.damage_calculated.connect(_on_damage_calculated)
 	
 
@@ -31,6 +32,7 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_battle_started():
+	#var scene = 
 	$BattleTextBG.visible = false
 	$MoveSelection.visible = false
 
@@ -60,7 +62,7 @@ func _on_fight_pressed() -> void:
 		add_child(btn)
 		
 		# probably should make all buttons like this, custom signals and all.
-		
+	
 	$MoveSelection.visible = true
 	$PromptTextBG.visible = false
 	
@@ -79,6 +81,7 @@ func _on_pokemon_pressed() -> void:
 # func move x pressed do move x effect, func move x hovered display move x information
 func _on_skill(skill):
 	SignalBus.skill.emit(skill)
+
 	
 func _on_skill_mouse_entered(skill):
 	print("wowow you did it yay you hovered over the box with your mouse")
@@ -87,44 +90,71 @@ func _on_skill_mouse_entered(skill):
 
 # find out how to make the stuff not neccessary
 # overload the function, probably
-func _on_battle_text(packet: Dictionary):
-	if packet.has("move"):
+func _on_send_battle_text(packet: Dictionary):
+	# this seems inefficient
+	# also different words for whether or not its Min or Ghost that did it.
+	# also critical hit just doesn't work, that's not correct
+	
+	if packet.has("skill"):
 		$PromptTextBG.hide()
 		$MoveSelection.hide()
-		$BattleTextBG/BattleText.text = str(packet["pk1 name"]) + " used " + str(packet["move name"]) + "!"
+		$BattleTextBG/BattleText.text = PlayerInfo.username + " used " + str(packet["skill name"]) + "!"
 		$BattleTextBG.show()
-		# or OS.delay_msec(<value>)
-			
-	if packet.has("damage dealt"):
-		# in this context pk 2 is enemy mon
-		$BattleTextBG/BattleText.text = "The opposing " + str(packet["pk2 name"]) + " lost " + str(int(packet["damage"])) + " health!" # also include percent 
-		# need diff pk_name, this is for your pk 
-		$Pokemon1HUD/HPNumbers.text = str(int(packet["health"])) + " / " + str(packet["max health"])
 		await get_tree().create_timer(2).timeout 
-		$PromptTextBG.show()
+		$BattleTextBG/BattleText.text = "The opposing " + str(packet["enemy name"]) + " lost " + str(packet["damage"]) + " health!" 
+		# $Pokemon1HUD/HPNumbers.text = str(int(packet["health"])) + " / " + str(packet["max health"])
+		# decide on temporary design: do the enemies have health bars, health numbers? or is that seen in menu?
+		await get_tree().create_timer(2).timeout 
+		$PromptTextBG.show() 
 		$BattleTextBG.hide()
-			
-	if packet.has("effective"):
-		$BattleTextBG/BattleText.text = "It's super effective!"
-			
-	if packet.has("not effective"):
-		$BattleTextBG/BattleText.text = "It's not very effective..."
-			
-	if packet.has("switch"):
+		
+	elif packet.has("miss"):
 		$PromptTextBG.hide()
 		$MoveSelection.hide()
+		$BattleTextBG/BattleText.text = PlayerInfo.username + " used " + str(packet["skill name"]) + "!"
 		$BattleTextBG.show()
-		$BattleTextBG/BattleText.text = str(packet["player1 name"]) + " withdrew " + str(packet["pk1 name"]) + "!"
-		# need other player name and your player name, plus two pokemon names
 		await get_tree().create_timer(2).timeout 
-		$BattleTextBG/BattleText.text = str(packet["player1 name"]) + " sent out " + str(packet["pk2 name"]) + "!"
-			
-	if packet.has("replace"):
+		$BattleTextBG/BattleText.text = "It missed..." 
+		await get_tree().create_timer(2).timeout 
+		$PromptTextBG.show() 
+		$BattleTextBG.hide()
+		
+	elif packet.has("crit"):
 		$PromptTextBG.hide()
 		$MoveSelection.hide()
+		$BattleTextBG/BattleText.text = PlayerInfo.username + " used " + str(packet["skill name"]) + "!"
 		$BattleTextBG.show()
-		$BattleTextBG/BattleText.text = str(packet["pk_name"]) + " replaced " + str(packet["pk_name"]) + "!"
-		# needs the two pokemon names
+		await get_tree().create_timer(2).timeout 
+		$BattleTextBG/BattleText.text = "CRITICAL HIT"
+		await get_tree().create_timer(2).timeout 
+		$BattleTextBG/BattleText.text = "The opposing " + str(packet["enemy name"]) + " lost " + str(packet["damage"]) + " health!" 
+		# $Pokemon1HUD/HPNumbers.text = str(int(packet["health"])) + " / " + str(packet["max health"])
+		# decide on temporary design: do the enemies have health bars, health numbers? or is that seen in menu?
+		await get_tree().create_timer(2).timeout 
+		$PromptTextBG.show() 
+		$BattleTextBG.hide()
+		
+	#if packet.has("effective"):
+	#	$BattleTextBG/BattleText.text = "It's super effective!"
+	#		
+	#if packet.has("not effective"):
+	#	$BattleTextBG/BattleText.text = "It's not very effective..."
+			
+	#if packet.has("switch"):
+	#	$PromptTextBG.hide()
+	#	$MoveSelection.hide()
+	#	$BattleTextBG.show()
+	#	$BattleTextBG/BattleText.text = str(packet["player1 name"]) + " withdrew " + str(packet["pk1 name"]) + "!"
+	#	# need other player name and your player name, plus two pokemon names
+	#	await get_tree().create_timer(2).timeout 
+	#	$BattleTextBG/BattleText.text = str(packet["player1 name"]) + " sent out " + str(packet["pk2 name"]) + "!"
+			
+	#if packet.has("replace"):
+	#	$PromptTextBG.hide()
+	#	$MoveSelection.hide()
+	#	$BattleTextBG.show()
+	#	$BattleTextBG/BattleText.text = str(packet["pk_name"]) + " replaced " + str(packet["pk_name"]) + "!"
+	#	# needs the two pokemon names
 			
 	if packet.has("crit"):
 		$BattleTextBG/BattleText.text = "A critical hit!"
